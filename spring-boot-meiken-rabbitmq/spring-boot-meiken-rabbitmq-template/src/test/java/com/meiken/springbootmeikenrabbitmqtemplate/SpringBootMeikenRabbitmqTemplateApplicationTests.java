@@ -1,10 +1,10 @@
-package com.meiken.springbootmeikenrabbitmq;
+package com.meiken.springbootmeikenrabbitmqtemplate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringBootMeikenRabbitmqApplicationTests {
+class SpringBootMeikenRabbitmqTemplateApplicationTests {
 
     @Test
     void contextLoads() {
