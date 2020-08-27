@@ -2,6 +2,8 @@
 #### [构建SpringBoot打包Jar的Docker镜像](https://github.com/AINewBegin/spring-boot-meiken-learn/tree/master/spring-boot-meiken-docker)
 #### SpringBoot多数据源
 #### SpringBoot集成Redis
+##### Redis使用Redisson
+##### Redis使用Jedis
 #### SpringBoot集成JPA
 #### SpringBoot集成MongoDB
 #### SpringBoot集成MyBatis
