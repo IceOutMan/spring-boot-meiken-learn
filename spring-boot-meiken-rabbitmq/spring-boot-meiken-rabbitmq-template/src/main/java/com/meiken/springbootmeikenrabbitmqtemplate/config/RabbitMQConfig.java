@@ -29,10 +29,9 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding bind_builder(){
+    public Binding bind_builder() {
         return BindingBuilder.bind(queue_builder()).to(exchange_builder()).with("DIRECT_KEY").noargs();
     }
-
 
 
 //    @Bean
@@ -49,7 +48,6 @@ public class RabbitMQConfig {
 //        return new Declarables(
 //                new Binding(QUEUE_NAME, Binding.DestinationType.QUEUE, DIRECT_EXCHANGE, "DIRECT_KEY", null));
 //    }
-
 
 
 //    @Bean

@@ -28,16 +28,16 @@ public class WorkerQueuesSend {
         factory.setPassword("admin");
 
 
-        try(Connection connection = factory.newConnection()) {
+        try (Connection connection = factory.newConnection()) {
 
             Channel channel = connection.createChannel();
-            channel.queueDeclare(QUEUE_NAME, true,false,false,null);
+            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
 
-            for(int i=0;i<5;i++){
-                String message =  i + " Message";
+            for (int i = 0; i < 5; i++) {
+                String message = i + " Message";
                 byte[] messageBody = message.getBytes(StandardCharsets.UTF_8);
-                channel.basicPublish("",QUEUE_NAME,null, messageBody);
-                System.out.println("[X]:Send "+message);
+                channel.basicPublish("", QUEUE_NAME, null, messageBody);
+                System.out.println("[X]:Send " + message);
             }
 
         } catch (TimeoutException e) {

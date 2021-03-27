@@ -26,16 +26,16 @@ public class TopicSend {
         factory.setPassword("admin");
 
 
-        try(Connection connection = factory.newConnection()) {
+        try (Connection connection = factory.newConnection()) {
 
             Channel channel = connection.createChannel();
-            channel.exchangeDeclare(EXCHANGE_NAME,"topic");
+            channel.exchangeDeclare(EXCHANGE_NAME, "topic");
 
-            for(int i=0;i<5;i++){
-                String message =  i + " Message";
+            for (int i = 0; i < 5; i++) {
+                String message = i + " Message";
                 byte[] messageBody = message.getBytes(StandardCharsets.UTF_8);
-                channel.basicPublish(EXCHANGE_NAME,"kern.critical",null, messageBody);
-                System.out.println("[X]:Send " + EXCHANGE_NAME + " - kern.critical" + " - "+message);
+                channel.basicPublish(EXCHANGE_NAME, "kern.critical", null, messageBody);
+                System.out.println("[X]:Send " + EXCHANGE_NAME + " - kern.critical" + " - " + message);
             }
 
         } catch (TimeoutException e) {

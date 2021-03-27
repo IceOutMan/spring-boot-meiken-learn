@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 @RestController
 public class TestController {
 
-    @NacosValue(value = "${nacosTestField:isNull}",autoRefreshed = true)
+    @NacosValue(value = "${nacosTestField:isNull}", autoRefreshed = true)
     private String nacosTestField;
 
 
@@ -24,18 +24,18 @@ public class TestController {
 
     @GetMapping("/test")
     @ResponseBody
-    public String test(){
+    public String test() {
         return nacosTestField;
     }
 
 
     @GetMapping("/datasourceConfig")
     @ResponseBody
-    public String dataSourceConfig(){
+    public String dataSourceConfig() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         int rowCount = jdbcTemplate.queryForObject("select count(*) from Teacher", Integer.class);
 
-        return rowCount+"";
+        return rowCount + "";
     }
 }

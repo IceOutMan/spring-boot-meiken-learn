@@ -22,14 +22,14 @@ public class NativeReceive {
         factory.setPassword("admin");
 
 
-        try( Connection connection = factory.newConnection()) {
+        try (Connection connection = factory.newConnection()) {
 
             Channel channel = connection.createChannel();
 
-            channel.queueDeclare(QUEUE_NAME, false,false,false,null);
+            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
             System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
-            DeliverCallback deliverCallback = (consumerTag,delivery)->{
+            DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
                 System.out.println(" [x] Received '" + message + "'");
             };
@@ -38,7 +38,7 @@ public class NativeReceive {
                 System.out.println("cancle callback");
             };
 
-            channel.basicConsume(QUEUE_NAME,true,deliverCallback, cancelCallback);
+            channel.basicConsume(QUEUE_NAME, true, deliverCallback, cancelCallback);
 
 
             Thread.sleep(5000);

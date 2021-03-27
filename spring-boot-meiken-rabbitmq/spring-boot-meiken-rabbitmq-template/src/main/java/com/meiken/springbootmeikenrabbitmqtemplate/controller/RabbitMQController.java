@@ -19,14 +19,14 @@ public class RabbitMQController {
     private AmqpTemplate amqpTemplate;
 
     @PostMapping("/send")
-    public void send(@RequestBody  String msg){
+    public void send(@RequestBody String msg) {
 //        amqpTemplate.convertAndSend(RabbitMQConfig.QUEUE_NAME, msg);
-        amqpTemplate.convertAndSend(RabbitMQConfig.DIRECT_EXCHANGE,"DIRECT_KEY",msg);
+        amqpTemplate.convertAndSend(RabbitMQConfig.DIRECT_EXCHANGE, "DIRECT_KEY", msg);
     }
 
     @GetMapping("/receive")
     @ResponseBody
-    public Object receive(){
+    public Object receive() {
         return amqpTemplate.receiveAndConvert(RabbitMQConfig.QUEUE_NAME);
     }
 

@@ -11,13 +11,12 @@ import java.util.List;
  * @Date 2020/9/21
  */
 @Repository
-public interface EncryptEntityRepository extends JpaRepository<EncryptEntity,Long> {
+public interface EncryptEntityRepository extends JpaRepository<EncryptEntity, Long> {
 
 
     List<EncryptEntity> findAllByMobileIsNull();
 
     List<EncryptEntity> findAllByMobile(String psw);
-
 
 
 }

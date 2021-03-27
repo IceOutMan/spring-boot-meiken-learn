@@ -27,16 +27,16 @@ public class PublishSubscribeSend {
         factory.setPassword("admin");
 
 
-        try(Connection connection = factory.newConnection()) {
+        try (Connection connection = factory.newConnection()) {
 
             Channel channel = connection.createChannel();
-            channel.exchangeDeclare(EXCHANGE_NAME,"fanout");
+            channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 
-            for(int i=0;i<5;i++){
-                String message =  i + " Message";
+            for (int i = 0; i < 5; i++) {
+                String message = i + " Message";
                 byte[] messageBody = message.getBytes(StandardCharsets.UTF_8);
-                channel.basicPublish(EXCHANGE_NAME,"",null, messageBody);
-                System.out.println("[X]:Send " + EXCHANGE_NAME + " - "+message);
+                channel.basicPublish(EXCHANGE_NAME, "", null, messageBody);
+                System.out.println("[X]:Send " + EXCHANGE_NAME + " - " + message);
             }
 
         } catch (TimeoutException e) {

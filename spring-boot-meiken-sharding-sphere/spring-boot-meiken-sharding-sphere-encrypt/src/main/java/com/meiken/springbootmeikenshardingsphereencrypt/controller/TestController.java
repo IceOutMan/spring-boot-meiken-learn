@@ -38,40 +38,40 @@ public class TestController {
     @Autowired
     private EncryptEntityRepository encryptEntityRepository;
 
-    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public EncryptEntity saveEntity(@RequestBody EncryptEntity encryptEntity){
+    public EncryptEntity saveEntity(@RequestBody EncryptEntity encryptEntity) {
         encryptEntity = encryptEntityRepository.saveAndFlush(encryptEntity);
         return encryptEntity;
     }
 
 
-    @RequestMapping(value = "/getByNull",method = RequestMethod.GET)
+    @RequestMapping(value = "/getByNull", method = RequestMethod.GET)
     @ResponseBody
-    public String findByPwdIsNull(){
+    public String findByPwdIsNull() {
         List<EncryptEntity> resultList = encryptEntityRepository.findAllByMobileIsNull();
         return JSON.toJSONString(resultList);
     }
 
 
-    @RequestMapping(value = "/getByNullValue",method = RequestMethod.GET)
+    @RequestMapping(value = "/getByNullValue", method = RequestMethod.GET)
     @ResponseBody
-    public String findByNullValue(){
+    public String findByNullValue() {
         List<EncryptEntity> resultList = encryptEntityRepository.findAllByMobile("");
         return JSON.toJSONString(resultList);
     }
 
-    @RequestMapping(value = "/encrypt",method = RequestMethod.POST)
+    @RequestMapping(value = "/encrypt", method = RequestMethod.POST)
     public void encrypt(@RequestBody JSONArray jsonArray) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
-        for(int i=0;i<jsonArray.size();i++){
+        for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject encryptJsonObject = jsonArray.getJSONObject(i);
             encryptService.encrypt(encryptJsonObject);
         }
     }
 
-    @RequestMapping(value = "/decrypt",method = RequestMethod.POST)
+    @RequestMapping(value = "/decrypt", method = RequestMethod.POST)
     public void decrypt(@RequestBody JSONArray jsonArray) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
-        for(int i=0;i<jsonArray.size();i++){
+        for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject encryptJsonObject = jsonArray.getJSONObject(i);
             encryptService.encrypt(encryptJsonObject);
         }

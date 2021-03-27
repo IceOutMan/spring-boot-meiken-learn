@@ -43,11 +43,11 @@ public class TestController {
     private PersonRepository personRepository;
 
 
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
     public String test() throws IOException {
 
-        HashMap<String,Object> personMap = new HashMap<>();
+        HashMap<String, Object> personMap = new HashMap<>();
         personMap.put("id", "10");
         personMap.put("name", "王五");
 
@@ -55,15 +55,15 @@ public class TestController {
                 .source(personMap)
                 .setRefreshPolicy(IMMEDIATE);
 
-        IndexResponse response = elasticsearchClient.index(request,RequestOptions.DEFAULT);
+        IndexResponse response = elasticsearchClient.index(request, RequestOptions.DEFAULT);
 
         return "df";
     }
 
 
-    @RequestMapping(value = "/save",method = RequestMethod.GET)
+    @RequestMapping(value = "/save", method = RequestMethod.GET)
     @ResponseBody
-    public String save(){
+    public String save() {
 
         Person newPerson = new Person();
         newPerson.setId(3);
@@ -71,27 +71,27 @@ public class TestController {
 
         Person person = elasticsearchOperations.save(newPerson);
 
-        return  JSON.toJSONString(person);
+        return JSON.toJSONString(person);
 
     }
 
 
-    @RequestMapping(value = "/query",method = RequestMethod.GET)
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
-    public String query(){
+    public String query() {
 
         Person newPerson = new Person();
         newPerson.setId(2);
         newPerson.setName("张三");
 
-        Person person = elasticsearchOperations.get("2",Person.class);
+        Person person = elasticsearchOperations.get("2", Person.class);
 
-        return  JSON.toJSONString(person);
+        return JSON.toJSONString(person);
     }
 
     @PostMapping(value = "/findByName")
     @ResponseBody
-    public String findByName(@RequestBody Person person){
+    public String findByName(@RequestBody Person person) {
 
         List<Person> personList = personRepository.findAll();
 
@@ -100,9 +100,9 @@ public class TestController {
 
     @PostMapping(value = "/savePerson")
     @ResponseBody
-    public String savePerson(@RequestBody Person person){
+    public String savePerson(@RequestBody Person person) {
 
-        person= personRepository.save(person);
+        person = personRepository.save(person);
 
         return JSON.toJSONString(person);
     }

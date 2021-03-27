@@ -31,7 +31,7 @@ public class EncryptService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    private String ENCRYPT_JSON_KEY =  "encrypt";
+    private String ENCRYPT_JSON_KEY = "encrypt";
     private String ENCRYPT_JSON_TABLE = "table";
     private String ENCRYPT_JSON_TABLE_KEY_ID = "tableKeyId";
     private String ENCRYPT_JSON_TABLE_KEY_TYPE = "tableKeyType";
@@ -48,7 +48,7 @@ public class EncryptService {
     private EntityManager entityManager;
 
     @Transactional(rollbackFor = Exception.class)
-    public void encrypt( JSONObject encryptJsonObject) throws InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException {
+    public void encrypt(JSONObject encryptJsonObject) throws InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException {
 
         String encrypt = encryptJsonObject.getString(ENCRYPT_JSON_KEY);
         String tableName = encryptJsonObject.getString(ENCRYPT_JSON_TABLE);
@@ -57,18 +57,18 @@ public class EncryptService {
         String tableQueryEncryptColumn = encryptJsonObject.getString(ENCRYPT_JSON_TABLE_QUERY_ENCRYPT_COLUMN);
         JSONArray columnsJSONArray = encryptJsonObject.getJSONArray(ENCRYPT_JSON_COLUMNS);
 
-        if(StringUtils.isEmpty(tableKeyId)){
+        if (StringUtils.isEmpty(tableKeyId)) {
             tableKeyId = "id";
             tableKeyType = ENCRYPT_JSON_TABLE_KEY_TYPE_INT;
         }
 
         logger.info("「数据脱敏」：TABLE-{}", JSON.toJSONString(tableName));
 
-        List<Object> keyIdList = queryIdLisFromTable(tableName,tableKeyId,tableQueryEncryptColumn);
+        List<Object> keyIdList = queryIdLisFromTable(tableName, tableKeyId, tableQueryEncryptColumn);
 
-        List<ColumnData> columnDataList= new ArrayList<>();
-        for(int k=0;k<columnsJSONArray.size();k++){
-            JSONObject  column = columnsJSONArray.getJSONObject(k);
+        List<ColumnData> columnDataList = new ArrayList<>();
+        for (int k = 0; k < columnsJSONArray.size(); k++) {
+            JSONObject column = columnsJSONArray.getJSONObject(k);
             String plainColumn = column.getString(ENCRYPT_JSON_PLAIN_COLUMN);
             String encryptColumn = column.getString(ENCRYPT_JSON_ENCRYPT_COLUMN);
 
@@ -82,21 +82,20 @@ public class EncryptService {
             columnDataList.add(columnData);
         }
 
-        for(int j=0;j<keyIdList.size();j++){
+        for (int j = 0; j < keyIdList.size(); j++) {
 
             String keyId = keyIdList.get(j).toString();
 
-            Object[] queryResult = queryPlainColumnData(tableName,tableKeyId,columnDataList, keyId,tableKeyType);
-            setEncryptContent(queryResult,columnDataList);
+            Object[] queryResult = queryPlainColumnData(tableName, tableKeyId, columnDataList, keyId, tableKeyType);
+            setEncryptContent(queryResult, columnDataList);
 
-            setData(tableName,tableKeyId,columnDataList,keyId,tableKeyType);
+            setData(tableName, tableKeyId, columnDataList, keyId, tableKeyType);
         }
     }
-
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void decrypt( JSONObject encryptJsonObject) throws InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException {
+    public void decrypt(JSONObject encryptJsonObject) throws InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException {
 
 
         String encrypt = encryptJsonObject.getString(ENCRYPT_JSON_KEY);
@@ -106,18 +105,18 @@ public class EncryptService {
         String tableQueryEncryptColumn = encryptJsonObject.getString(ENCRYPT_JSON_TABLE_QUERY_ENCRYPT_COLUMN);
         JSONArray columnsJSONArray = encryptJsonObject.getJSONArray(ENCRYPT_JSON_COLUMNS);
 
-        if(StringUtils.isEmpty(tableKeyId)){
+        if (StringUtils.isEmpty(tableKeyId)) {
             tableKeyId = "id";
             tableKeyType = ENCRYPT_JSON_TABLE_KEY_TYPE_INT;
         }
 
         logger.info("「数据脱敏」：TABLE-{}", JSON.toJSONString(tableName));
 
-        List<Object> keyIdList = queryIdLisFromTable(tableName,tableKeyId,tableQueryEncryptColumn);
+        List<Object> keyIdList = queryIdLisFromTable(tableName, tableKeyId, tableQueryEncryptColumn);
 
-        List<ColumnData> columnDataList= new ArrayList<>();
-        for(int k=0;k<columnsJSONArray.size();k++){
-            JSONObject  column = columnsJSONArray.getJSONObject(k);
+        List<ColumnData> columnDataList = new ArrayList<>();
+        for (int k = 0; k < columnsJSONArray.size(); k++) {
+            JSONObject column = columnsJSONArray.getJSONObject(k);
             String plainColumn = column.getString(ENCRYPT_JSON_PLAIN_COLUMN);
             String encryptColumn = column.getString(ENCRYPT_JSON_ENCRYPT_COLUMN);
 
@@ -131,30 +130,28 @@ public class EncryptService {
             columnDataList.add(columnData);
         }
 
-        for(int j=0;j<keyIdList.size();j++){
+        for (int j = 0; j < keyIdList.size(); j++) {
 
             String keyId = keyIdList.get(j).toString();
 
-            Object[] queryResult = queryPlainColumnData(tableName,tableKeyId,columnDataList, keyId,tableKeyType);
-            setEncryptContent(queryResult,columnDataList);
+            Object[] queryResult = queryPlainColumnData(tableName, tableKeyId, columnDataList, keyId, tableKeyType);
+            setEncryptContent(queryResult, columnDataList);
 
-            setData(tableName,tableKeyId,columnDataList,keyId,tableKeyType);
+            setData(tableName, tableKeyId, columnDataList, keyId, tableKeyType);
         }
     }
 
 
-
-
-    private void setData(String tableName,String tableKeyId,List<ColumnData> columnDataList,String keyId,String tableKeyType){
+    private void setData(String tableName, String tableKeyId, List<ColumnData> columnDataList, String keyId, String tableKeyType) {
 
         String encryptColumnSqlContent = getEncryptColumnSqlContent(columnDataList);
 
-        String query = "update " + tableName + " set " + encryptColumnSqlContent +" where " + tableKeyId + "=" + keyId +";";
+        String query = "update " + tableName + " set " + encryptColumnSqlContent + " where " + tableKeyId + "=" + keyId + ";";
 
-        if(ENCRYPT_JSON_TABLE_KEY_TYPE_INT.equals(tableKeyType)){
-            query = "update " + tableName + " set " + encryptColumnSqlContent +" where " + tableKeyId + "=" + keyId +";";
-        }else if(ENCRYPT_JSON_TABLE_KEY_TYPE_STRING.equals(tableKeyType)){
-            query = "update " + tableName + " set " + encryptColumnSqlContent +" where " + tableKeyId + "=" + "'" +  keyId + "'" +";";
+        if (ENCRYPT_JSON_TABLE_KEY_TYPE_INT.equals(tableKeyType)) {
+            query = "update " + tableName + " set " + encryptColumnSqlContent + " where " + tableKeyId + "=" + keyId + ";";
+        } else if (ENCRYPT_JSON_TABLE_KEY_TYPE_STRING.equals(tableKeyType)) {
+            query = "update " + tableName + " set " + encryptColumnSqlContent + " where " + tableKeyId + "=" + "'" + keyId + "'" + ";";
         }
 
         logger.info("「数据脱敏」：SET-DATA-{}", JSON.toJSONString(query));
@@ -165,15 +162,14 @@ public class EncryptService {
     }
 
 
-
-    private String getQueryColumnContent(List<ColumnData> columnDataList){
+    private String getQueryColumnContent(List<ColumnData> columnDataList) {
         StringBuilder queryColumnBuilder = new StringBuilder();
         for (int i = 0; i < columnDataList.size(); i++) {
             ColumnData columnData = columnDataList.get(i);
 
-            if(i == columnDataList.size()-1){
+            if (i == columnDataList.size() - 1) {
                 queryColumnBuilder.append(columnData.getPlainColumn());
-            }else{
+            } else {
                 queryColumnBuilder.append(columnData.getPlainColumn()).append(",");
             }
         }
@@ -181,16 +177,16 @@ public class EncryptService {
     }
 
 
-    private String getEncryptColumnSqlContent(List<ColumnData> columnDataList){
+    private String getEncryptColumnSqlContent(List<ColumnData> columnDataList) {
         StringBuilder queryColumnBuilder = new StringBuilder();
         for (int i = 0; i < columnDataList.size(); i++) {
             ColumnData columnData = columnDataList.get(i);
 
-            if(i == columnDataList.size()-1){
+            if (i == columnDataList.size() - 1) {
                 queryColumnBuilder.append(columnData.getEncryptColumn())
                         .append("=")
                         .append("'").append(columnData.getEncryptContent()).append("'");
-            }else{
+            } else {
                 queryColumnBuilder.append(columnData.getEncryptColumn())
                         .append("=")
                         .append("'").append(columnData.getEncryptContent()).append("'")
@@ -201,36 +197,36 @@ public class EncryptService {
     }
 
 
-    private Object[] queryPlainColumnData(String tableName,String tableKeyId,List<ColumnData> columnDataList,String keyId,String tableKeyType){
+    private Object[] queryPlainColumnData(String tableName, String tableKeyId, List<ColumnData> columnDataList, String keyId, String tableKeyType) {
 
         String queryColumnContent = getQueryColumnContent(columnDataList);
 
-        String query = "select " + queryColumnContent + " from " + tableName +" where " + tableKeyId +"=" + keyId + ";";
-        if(ENCRYPT_JSON_TABLE_KEY_TYPE_INT.equals(tableKeyType)){
-            query = "select " + queryColumnContent + " from " + tableName +" where " + tableKeyId +"=" + keyId + ";";
-        }else if(ENCRYPT_JSON_TABLE_KEY_TYPE_STRING.equals(tableKeyType)){
-            query = "select " + queryColumnContent + " from " + tableName +" where " + tableKeyId +"=" +"'"+ keyId +"'"+ ";";
+        String query = "select " + queryColumnContent + " from " + tableName + " where " + tableKeyId + "=" + keyId + ";";
+        if (ENCRYPT_JSON_TABLE_KEY_TYPE_INT.equals(tableKeyType)) {
+            query = "select " + queryColumnContent + " from " + tableName + " where " + tableKeyId + "=" + keyId + ";";
+        } else if (ENCRYPT_JSON_TABLE_KEY_TYPE_STRING.equals(tableKeyType)) {
+            query = "select " + queryColumnContent + " from " + tableName + " where " + tableKeyId + "=" + "'" + keyId + "'" + ";";
         }
 
         Query nativeQuery = entityManager.createNativeQuery(query);
         List list = nativeQuery.getResultList();
         Object[] result = null;
 
-        if(columnDataList.size() == 1){
+        if (columnDataList.size() == 1) {
             result = new Object[]{list.get(0)};
-        }else {
+        } else {
             result = (Object[]) list.get(0);
         }
 
         return result;
     }
 
-    private void setEncryptContent(Object[] queryResult,List<ColumnData> columnDataList) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+    private void setEncryptContent(Object[] queryResult, List<ColumnData> columnDataList) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
         //加密
-        for(ColumnData columnData : columnDataList){
+        for (ColumnData columnData : columnDataList) {
             int index = columnData.getIndex();
-            String plainContent =  String.valueOf(queryResult[index]);
-            if("null".equals(plainContent)){
+            String plainContent = String.valueOf(queryResult[index]);
+            if ("null".equals(plainContent)) {
                 plainContent = "";
             }
             String encryptContent = SensitiveEncryptUtil.encrypt(plainContent);
@@ -241,19 +237,19 @@ public class EncryptService {
     }
 
 
-    private List<Object> queryIdLisFromTable(String tableName,String tableKeyId,String tableQueryEncryptColumn){
+    private List<Object> queryIdLisFromTable(String tableName, String tableKeyId, String tableQueryEncryptColumn) {
 
-        String query = "select "+ tableKeyId +" from " + tableName + " where " + tableQueryEncryptColumn + " is null limit 200000" + ";";
+        String query = "select " + tableKeyId + " from " + tableName + " where " + tableQueryEncryptColumn + " is null limit 200000" + ";";
 
         Query nativeQuery = entityManager.createNativeQuery(query);
 
         List result = nativeQuery.getResultList();
 
-        return  result;
+        return result;
     }
 
 
-    class ColumnData{
+    class ColumnData {
         String plainColumn;
         String encryptColumn;
         String plainContent;

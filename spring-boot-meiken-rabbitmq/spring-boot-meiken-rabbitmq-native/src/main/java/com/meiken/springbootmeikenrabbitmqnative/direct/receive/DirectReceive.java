@@ -25,14 +25,14 @@ public class DirectReceive {
         factory.setUsername("admin");
         factory.setPassword("admin");
 
-        try (Connection connection = factory.newConnection()){
+        try (Connection connection = factory.newConnection()) {
 
             Channel channel = connection.createChannel();
-            channel.exchangeDeclare(EXCHANGE_NAME,"direct");
+            channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 
             //获取一个随机的queue，连接断了自动删除
             String tempQueueName = channel.queueDeclare().getQueue();
-            channel.queueBind(tempQueueName,EXCHANGE_NAME,"meiken_direct");
+            channel.queueBind(tempQueueName, EXCHANGE_NAME, "meiken_direct");
 
 
             System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
@@ -42,7 +42,8 @@ public class DirectReceive {
                 System.out.println(" [x] Received '" + message + "'");
             };
 
-            channel.basicConsume(tempQueueName, true, deliverCallback, consumerTag -> { });
+            channel.basicConsume(tempQueueName, true, deliverCallback, consumerTag -> {
+            });
 
             Thread.sleep(200000);
 

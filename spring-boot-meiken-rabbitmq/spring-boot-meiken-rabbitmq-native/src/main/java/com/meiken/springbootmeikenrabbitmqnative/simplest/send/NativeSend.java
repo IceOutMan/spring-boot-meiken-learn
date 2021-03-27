@@ -23,18 +23,18 @@ public class NativeSend {
         connectionFactory.setPassword("admin");
 
 
-        try(Connection connection = connectionFactory.newConnection()){
+        try (Connection connection = connectionFactory.newConnection()) {
 
 
             Channel channel = connection.createChannel();
 
-            channel.queueDeclare(QUEUE_NAME, false,false,false,null);
+            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
 
             String message = "Hello im here";
             byte[] messageBody = message.getBytes(StandardCharsets.UTF_8);
 
-            channel.basicPublish("",QUEUE_NAME,null,messageBody);
+            channel.basicPublish("", QUEUE_NAME, null, messageBody);
 
             System.out.println(" [x] Sent '" + message + "'");
         } catch (Exception e) {

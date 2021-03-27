@@ -14,11 +14,11 @@ public class EncryptEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "user_name",columnDefinition = "varchar(50) comment '用户名'")
+    @Column(name = "user_name", columnDefinition = "varchar(50) comment '用户名'")
     private String userName;
 
-    @Column(name = "mobile",columnDefinition = "varchar(50) comment '手机号'")
-    private String mobile ="";
+    @Column(name = "mobile", columnDefinition = "varchar(50) comment '手机号'")
+    private String mobile = "";
 
 
     public Long getId() {
