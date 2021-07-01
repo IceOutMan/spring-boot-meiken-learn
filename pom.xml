@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.meiken</groupId>
-    <artifactId>mongolearn</artifactId>
+    <artifactId>spring-boot-meiken-learn</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>mongolearn</name>
+    <name>spring-boot-meiken-learn</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
