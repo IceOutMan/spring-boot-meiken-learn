@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
     @GetMapping("/ok")
-    public void logOk(){
+    public void logOk() {
         log.debug("debug");
         log.info("info");
         log.warn("warn");
