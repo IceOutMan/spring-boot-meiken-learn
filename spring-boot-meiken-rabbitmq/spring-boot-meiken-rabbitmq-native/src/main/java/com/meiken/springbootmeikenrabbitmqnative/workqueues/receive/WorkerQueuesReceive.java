@@ -43,9 +43,9 @@ public class WorkerQueuesReceive {
                 } finally {
                     System.out.println(" [x] Done");
 
-                    //手动确认-消费成功-消费被服务端丢弃
+                    // 手动确认-消费成功-消息被服务端丢弃
 //                    channel.basicAck(delivery.getEnvelope().getDeliveryTag(),false);
-                    //消费失败-可以重新入队，不重新入队则被服务端丢弃
+                    // 消费失败-可以重新入队，不重新入队则被服务端丢弃
                     channel.basicNack(delivery.getEnvelope().getDeliveryTag(), false, false);
                     //消费拒绝，直接被服务端丢弃
 //                    channel.basicReject(delivery.getEnvelope().getDeliveryTag(),false);

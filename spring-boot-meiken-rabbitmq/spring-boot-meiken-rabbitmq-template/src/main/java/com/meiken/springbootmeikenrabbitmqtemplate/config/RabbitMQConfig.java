@@ -66,9 +66,4 @@ public class RabbitMQConfig {
 //    }
 
 
-//    @RabbitListener(queues = QUEUE_NAME)
-//    public void meikenQueueListener(String msg){
-//        System.out.println(msg);
-//    }
-
 }
