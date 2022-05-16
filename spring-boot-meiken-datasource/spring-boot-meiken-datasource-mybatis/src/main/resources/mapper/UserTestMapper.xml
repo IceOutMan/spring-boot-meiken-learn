@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.springbootmeikendatasourcemybatis.dao.UserTestMapper" >
+  <resultMap id="BaseResultMap" type="com.example.springbootmeikendatasourcemybatis.entity.UserTest" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="age" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="pay" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="odds" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="pay_result" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="flag" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_test
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.springbootmeikendatasourcemybatis.entity.UserTest" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_test (name, age, pay, 
+      odds, pay_result, flag, 
+      time)
+    values (#{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{pay,jdbcType=BIGINT}, 
+      #{odds,jdbcType=DECIMAL}, #{payResult,jdbcType=DECIMAL}, #{flag,jdbcType=INTEGER}, 
+      #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.springbootmeikendatasourcemybatis.entity.UserTest" >
+    update user_test
+    set name = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      pay = #{pay,jdbcType=BIGINT},
+      odds = #{odds,jdbcType=DECIMAL},
+      pay_result = #{payResult,jdbcType=DECIMAL},
+      flag = #{flag,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, name, age, pay, odds, pay_result, flag, time
+    from user_test
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, age, pay, odds, pay_result, flag, time
+    from user_test
+  </select>
+</mapper>
