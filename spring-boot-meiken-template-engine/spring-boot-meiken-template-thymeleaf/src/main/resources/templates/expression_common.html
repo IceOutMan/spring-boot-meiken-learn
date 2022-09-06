@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<!--导入thymeleaf的名称空间-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="expression-common(common_name)" id="expression-common-id">
+        <h1 th:text="${common_name}"></h1>
+        <h3 th:text="'dates'"></h3>
+        <h5 th:text="'dates.format :' + ${#dates.format(date)}"></h5>
+        <h5 th:text="'dates.day :' + ${#dates.day(date)}"></h5>
+        <h5 th:text="'dates.month :' + ${#dates.month(date)}"></h5>
+        <h5 th:text="'dates.monthName :' + ${#dates.monthName(date)}"></h5>
+        <h5 th:text="'dates.monthNameShort :' + ${#dates.monthNameShort(date)}"></h5>
+        <h5 th:text="'dates.year :' + ${#dates.year(date)}"></h5>
+        <h5 th:text="'dates.hour :' + ${#dates.hour(date)}"></h5>
+        <h5 th:text="'dates.minute :' + ${#dates.minute(date)}"></h5>
+        <h5 th:text="'dates.second :' + ${#dates.second(date)}"></h5>
+        <h5 th:text="'dates.create :' + ${#dates.create(2022,12,3,19,25,45)}"></h5>
+        <h5 th:text="'dates.createNow :' + ${#dates.createNow()}"></h5>
+        <h3 th:text="'strings'"></h3>
+        <h5 th:text="'strings.equals :' + ${#strings.equals('this name',name)}"></h5>
+        <h5 th:text="'strings.isEmpty:' + ${#strings.isEmpty('')}"></h5>
+        <h5 th:text="'strings.contains:' + ${#strings.contains('hello', 'he')}"></h5>
+        <h5 th:text="'strings.append:' + ${#strings.append('hello', 'world')}"></h5>
+        <h5 th:text="'strings.toUpperCase:' + ${#strings.toUpperCase('uppercase')}"></h5>
+        <h5 th:text="'strings.toLowerCase:' + ${#strings.toLowerCase('LOWERCASE')}"></h5>
+        <h5 th:text="'strings.arrayJoin:' + ${#strings.arrayJoin(#numbers.sequence(1,10), ',')}"></h5>
+        <h3 th:text="'numbers'"></h3>
+        <h5 th:text="'numbers.formatInteger :' + ${#numbers.formatInteger(12345,10)}"></h5>
+        <h5 th:text="'numbers.formatDecimal :' + ${#numbers.formatDecimal(1234567.123456, 3,2)}"></h5>
+        <h5 th:text="'numbers.sequence :' + ${#numbers.sequence(1,10)}"></h5>
+        <h3 th:text="'bools'"></h3>
+        <h5 th:text="'bools.isTrue(1):' + ${#bools.isTrue(1)}"></h5>
+        <h5 th:text="'bools.isFalse(1):' + ${#bools.isFalse(1)}"></h5>
+        <h3 th:text="'arrays'"></h3>
+        <h5 th:text="'arrays.length:' + ${#arrays.length(#numbers.sequence(1,10))}"></h5>
+        <h3 th:text="'lists'"></h3>
+        <h5 th:text="'lists.size :' + ${#lists.size(list)}"></h5>
+        <h5 th:text="'lists.isEmpty :' + ${#lists.isEmpty(list)}"></h5>
+        <h5 th:text="'lists.contains :' + ${#lists.contains(list,2)}"></h5>
+        <h3 th:text="'sets'"></h3>
+        <h5 th:text="'sets.isEmpty :' + ${#sets.isEmpty(set)}"></h5>
+        <h5 th:text="'sets.size :' + ${#sets.size(set)}"></h5>
+        <h5 th:text="'sets.contains :' + ${#sets.contains(set,3)}"></h5>
+
+        <h3 th:text="'maps'"></h3>
+        <h5 th:text="'maps.size :' + ${#maps.size(map)}"></h5>
+        <h5 th:text="'maps.containsKey :' + ${#maps.containsKey(map,'name')}"></h5>
+
+    </div>
+</html>
