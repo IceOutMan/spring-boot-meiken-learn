@@ -7,9 +7,9 @@ import java.util.logging.*;
 /**
  * Hello world!
  */
-public class JDKLog {
+public class JDKLog_commons_logging_TEST {
     public static void main(String[] args) throws IOException {
-        Logger logger = Logger.getLogger(JDKLog.class.getName());
+        Logger logger = Logger.getLogger(JDKLog_commons_logging_TEST.class.getName());
 
         // Level
         logger.setLevel(Level.INFO);

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>表达式语法</title>
+    </head>
+    <body>
+        <h1 th:text="一、变量表达式"></h1>
+        <h3 th:text="'map.name'+${name}"></h3>
+        <div>
+            <h3 th:text="'Show Person:'+${person}"></h3>
+        </div>
+
+        <h2 th:text="变量表达式：内置基本对象"></h2>
+        <div>
+            <!--            <h3 th:text="'上下文对象:' + ${#ctx}"></h3>-->
+            <!--            <h3 th:text="'上下文变量:' + ${#vars}"></h3>-->
+            <h3 th:text="'上下文的语言环境:' + ${#locale}"></h3>
+            <h3 th:text="'HttpServletRequest对象（仅在WEB应用中可以使用）:' + ${#request}"></h3>
+            <h3 th:text="'HttpServletResponse对象（仅在WEB应用中可以使用):' + ${#response}"></h3>
+            <h3 th:text="'HttpSession对象（仅在WEB应用中可以使用）:' + ${#session}"></h3>
+            <h5 th:text="' session content:' + ${#session.getAttribute('map')}"></h5>
+            <h3 th:text="'ServletContext对象（仅在WEB应用中可以使用）:' + ${#servletContext}"></h3>
+        </div>
+
+        <h2 th:text="变量表达式：内置的工具对象"></h2>
+<!--        <div th:include="expression_common::expression-common(common_name='this is common name')"></div>-->
+        <div th:include="expression_common::#expression-common-id(common_name='include_fragment_name')"></div>
+<!--        <div th:insert="expression_common::expression-common"></div>-->
+<!--        <div th:insert="expression_common::#expression-common-id"></div>-->
+
+        <h1 th:text="二、选择变量表达式"></h1>
+        <div th:object="${person}">
+            <h3 th:text="' person sex:'+${person.sex}"></h3>
+            <h3 th:text="'person age:'+${person.age}"></h3>
+            <h3 th:text="'person name:'+${person.name}"></h3>
+        </div>
+
+        <h1 th:text="三、链接表达式"></h1>
+        <a th:href="@{/expression/linkExpression(name='ZS')}">this call linkExpression method</a>
+    </body>
+</html>

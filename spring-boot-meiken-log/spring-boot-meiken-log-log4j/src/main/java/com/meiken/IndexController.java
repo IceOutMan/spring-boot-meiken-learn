@@ -1,7 +1,5 @@
-package com.meiken.spring.boot.meiken.log.log4j;
+package com.meiken;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,15 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping(value = "/index")
 @RestController
-@Slf4j
 public class IndexController {
 
     @GetMapping("/ok")
     public void logOk() {
-        log.debug("debug");
-        log.info("info");
-        log.warn("warn");
-        log.error("error");
+//        log.debug("debug");
+//        log.info("info");
+//        log.warn("warn");
+//        log.error("error");
     }
 
 }

@@ -1,0 +1,4 @@
+2022-12-15 16:15:51  [ main:0 ] - [ DEBUG ]  debug
+2022-12-15 16:15:51  [ main:2 ] - [ INFO ]  info
+2022-12-15 16:15:51  [ main:3 ] - [ WARN ]  warn
+2022-12-15 16:15:51  [ main:3 ] - [ ERROR ]  error

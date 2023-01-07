@@ -7,6 +7,9 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>spring-boot-meiken-log</name>
+    <modules>
+        <module>spring-boot-meiken-log-commons-logging</module>
+    </modules>
 
     <packaging>pom</packaging>
     <properties>
