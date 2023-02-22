@@ -8,6 +8,7 @@
         <module>spring-boot-meiken-log/spring-boot-meiken-log-jdk</module>
         <module>spring-boot-meiken-datasource</module>
         <module>spring-boot-meiken-elasticsearch-native</module>
+        <module>spring-boot-meiken-zookeeper-native</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
