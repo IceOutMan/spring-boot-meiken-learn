@@ -1,5 +1,7 @@
 package com.meiken.client;
 
+import org.apache.zookeeper.*;
+
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
