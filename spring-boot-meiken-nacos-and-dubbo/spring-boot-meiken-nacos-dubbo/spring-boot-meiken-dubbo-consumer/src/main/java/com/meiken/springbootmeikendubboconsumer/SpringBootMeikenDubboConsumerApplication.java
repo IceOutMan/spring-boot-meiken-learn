@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @NacosPropertySource(dataId = "spring-boot-meiken-dubbo-consumer", autoRefreshed = true)
-@EnableDubbo
+@EnableDubbo(scanBasePackages = "com.meiken")
 @SpringBootApplication
 public class SpringBootMeikenDubboConsumerApplication {
 
