@@ -7,7 +7,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ConfigCenter {
 
-    private final static String CONNECT_STR = "127.0.0.1:2181";
+    private final static String CONNECT_STR = "127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183";
     private final static Integer SESSION_TIMEOUT = 30 * 1000;
 
     private final static String MEIKEN_NODE = "/meiken_node";
@@ -29,19 +29,17 @@ public class ConfigCenter {
                 }
             }
         });
-
         countDownLatch.await();
 
-        String configValue = "{ 'name' : 'zhangsan', 'age': 2}";
-        // 新增一个节点
-        zooKeeper.create("/meiken_node", configValue.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        // 创建一个节点
+        createNode();
 
-
+        // 监听该节点的变化
         Watcher dataChangeWatcher = new Watcher() {
             @Override
             public void process(WatchedEvent watchedEvent) {
-                if(watchedEvent.getType() == Event.EventType.NodeDataChanged
-                        && watchedEvent.getPath() != null && watchedEvent.getPath().equals("/meiken_node")){
+                if (watchedEvent.getType() == Event.EventType.NodeDataChanged
+                        && watchedEvent.getPath() != null && watchedEvent.getPath().equals("/meiken_node")) {
                     System.out.println("[/meiken_node] 数据发生了变化");
                     try {
                         byte[] data = zooKeeper.getData(MEIKEN_NODE, this, null);
@@ -59,6 +57,15 @@ public class ConfigCenter {
         byte[] data = zooKeeper.getData(MEIKEN_NODE, dataChangeWatcher, null);
         System.out.println("数据发生变化前为:" + new String(data));
 
-        Thread.sleep( 5 * 60 * 1000);
+        Thread.sleep(5 * 60 * 1000);
+    }
+
+
+    public static void createNode() throws InterruptedException, KeeperException {
+        String configValue = "{ 'name' : 'zhangsan', 'age': 2}";
+        // 新增一个节点
+        zooKeeper.create("/meiken_node", configValue.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+
+
     }
 }
