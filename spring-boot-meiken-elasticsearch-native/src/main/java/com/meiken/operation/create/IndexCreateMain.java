@@ -1,6 +1,8 @@
 package com.meiken.operation.create;
 
-import com.meiken.config.ClientFactory;
+import com.alibaba.fastjson.JSON;
+import com.meiken.Car;
+import com.meiken.EsClient;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -9,29 +11,35 @@ import org.elasticsearch.common.xcontent.XContentType;
 
 import java.io.IOException;
 
+/**
+ * 创建使用
+ * 1. ID 指定的话使用指定的ID
+ * 2. ID 不指定的话默认生成
+ */
 public class IndexCreateMain {
 
     public static void main(String[] args) {
-        createIndexByJson();
-//        createIndexByFiled();
+
+        // 使用指定字段格式
+        createDocByField();
+
+        // 使用JSON 格式
+//        createDocByJson();
+
     }
 
-    /**
-     * {
-     * "_index": "posts",
-     * "_type": "_doc",
-     * "_id": "2",
-     * "_score": 1,
-     * "_source": {
-     * "name_filed": "name_value"
-     * }
-     * }
-     */
-    public static void createIndexByFiled(){
-        RestHighLevelClient client = ClientFactory.getClient();
-        IndexRequest request = new IndexRequest("posts");
-        request.id("2");
-        request.source("name_filed","name_value");
+    public static void createDocByField(){
+        RestHighLevelClient client = EsClient.getClient();
+        IndexRequest request = new IndexRequest(EsClient.INDEX_NAME);
+
+        request.id("create_by_field");
+        request.source(
+                "color","red",
+                "name", "CCC",
+                "price", 111,
+                "sales", 111,
+                "district", new String[]{"中国", "美国"}
+        );
 
         try {
             IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
@@ -43,30 +51,20 @@ public class IndexCreateMain {
 
     }
 
-    /**
-     * {
-     * "_index": "posts",
-     * "_type": "_doc",
-     * "_id": "1",
-     * "_score": 1,
-     * "_source": {
-     * "user": "kimchy",
-     * "postDate": "2013-01-30",
-     * "message": "trying out Elasticsearch"
-     * }
-     * }
-     */
     // 以json形式为index设置字段
-    public static void createIndexByJson(){
-        RestHighLevelClient client = ClientFactory.getClient();
-        IndexRequest request = new IndexRequest("posts");
-        request.id("1");
-        String jsonString = "{" +
-                "\"user\":\"kimchy\"," +
-                "\"postDate\":\"2013-01-30\"," +
-                "\"message\":\"trying out Elasticsearch\"" +
-                "}";
-        request.source(jsonString, XContentType.JSON);
+    public static void createDocByJson(){
+        RestHighLevelClient client = EsClient.getClient();
+        IndexRequest request = new IndexRequest(EsClient.INDEX_NAME);
+        request.id("create_by_json");
+
+        Car car = new Car();
+        car.setColor("Blue");
+        car.setName("JJJ");
+        car.setPrice(222D);
+        car.setSales(222L);
+        car.setDistrict(new String[]{"中国"});
+
+        request.source(JSON.toJSONString(car), XContentType.JSON);
 
         try {
             IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
@@ -75,6 +73,5 @@ public class IndexCreateMain {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
