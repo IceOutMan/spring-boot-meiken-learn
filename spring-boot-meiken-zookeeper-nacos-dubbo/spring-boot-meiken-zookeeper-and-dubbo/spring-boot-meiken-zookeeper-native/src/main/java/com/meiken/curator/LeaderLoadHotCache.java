@@ -6,6 +6,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.leader.LeaderSelector;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListener;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
+import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class LeaderLoadHotCache {
@@ -32,15 +33,23 @@ public class LeaderLoadHotCache {
 
     // 责任链模式
     public static void fluentStyle() {
-        CuratorFramework client = CuratorFrameworkFactory.builder()
+        RetryPolicy tempRetryPolicy = new ExponentialBackoffRetry(5 * 1000, 10);
+
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.builder()
                 .connectString(CONNECT_STR)
                 .sessionTimeoutMs(5000) // 会话超时时间
                 .connectionTimeoutMs(5000) // 连接超时时间
-                .retryPolicy(retryPolicy)
+                .retryPolicy(tempRetryPolicy)
                 .namespace("base") // 包含隔离名称
                 .build();
 
-        client.start();
+        // 监听连接成功事件
+        curatorFramework.getConnectionStateListenable().addListener( (client, newState) -> {
+            if(newState == ConnectionState.CONNECTED){
+                System.out.printf("连接成功...");
+            }
+        });
 
+        curatorFramework.start();
     }
 }
