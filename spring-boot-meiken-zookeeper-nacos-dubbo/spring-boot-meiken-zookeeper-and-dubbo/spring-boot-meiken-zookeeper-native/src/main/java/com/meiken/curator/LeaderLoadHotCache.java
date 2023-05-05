@@ -22,6 +22,7 @@ public class LeaderLoadHotCache {
             @Override
             public void takeLeadership(CuratorFramework curatorFramework) throws Exception {
                 // leader 选举成功后会执行该逻辑
+                // leader 挂了，重新选举了 new leader 也会在此处通知
                 System.out.println("load hot data to cache");
             }
         };
