@@ -29,4 +29,18 @@ public class LeaderLoadHotCache {
         selector.autoRequeue();
         selector.start();
     }
+
+    // 责任链模式
+    public static void fluentStyle() {
+        CuratorFramework client = CuratorFrameworkFactory.builder()
+                .connectString(CONNECT_STR)
+                .sessionTimeoutMs(5000) // 会话超时时间
+                .connectionTimeoutMs(5000) // 连接超时时间
+                .retryPolicy(retryPolicy)
+                .namespace("base") // 包含隔离名称
+                .build();
+
+        client.start();
+
+    }
 }
