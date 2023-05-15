@@ -1,4 +1,4 @@
-package com.meiken.simple.consumer;
+package com.meiken.tracemessage;
 
 
 import com.alibaba.fastjson.JSON;
@@ -11,15 +11,17 @@ import org.apache.rocketmq.common.message.MessageExt;
 
 import java.util.List;
 
-public class PushConsumerExample {
-    public static final String TOPIC = "TestTopic";
+/**
+ * 订阅消息时需要开启 traceMessage 模式
+ */
+public class TracePushConsumerExample {
+    public static final String TOPIC = "TraceMessageTestTopic";
 
     public static void main(String[] args) throws Exception  {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("CID_JODIE_1");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("trace_message_consumer_group",true);
         consumer.setNamesrvAddr("localhost:9876");
         consumer.subscribe(TOPIC,"*");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-        consumer.setConsumeTimestamp("20181109221800");
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext consumeConcurrentlyContext) {

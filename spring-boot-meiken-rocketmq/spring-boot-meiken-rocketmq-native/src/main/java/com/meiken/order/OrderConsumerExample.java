@@ -21,7 +21,7 @@ public class OrderConsumerExample {
         try {
             DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("order_consumer_group");
             consumer.setNamesrvAddr("localhost:9876");
-            consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+            consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
 
             consumer.subscribe("OrderTopicTest", "*");
             consumer.registerMessageListener(new MessageListenerOrderly() {

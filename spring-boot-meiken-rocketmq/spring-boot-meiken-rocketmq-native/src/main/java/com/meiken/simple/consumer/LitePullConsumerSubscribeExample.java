@@ -17,7 +17,7 @@ public class LitePullConsumerSubscribeExample {
     public static void main(String[] args) throws MQClientException {
         DefaultLitePullConsumer litePullConsumer = new DefaultLitePullConsumer("lite_pull_consumer_subscribe_group");
         litePullConsumer.setNamesrvAddr("localhost:9876");
-        litePullConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+        litePullConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         litePullConsumer.subscribe(TOPIC, "*");
         // 是否自动提交 commit
         litePullConsumer.setAutoCommit(false);
