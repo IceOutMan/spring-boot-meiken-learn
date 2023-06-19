@@ -13,7 +13,7 @@ class SpringBootMeikenShardingSphereTablesApplicationTests {
     @Autowired
     private CourseMapper courseMapper;
     @Test
-    void courseTest() {
+    void insertCourseTest() {
         for (int i = 0; i < 10; i++) {
             Course course = new Course();
             course.setCname("sharding sphere");
