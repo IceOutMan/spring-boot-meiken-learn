@@ -1,15 +1,6 @@
 package com.meiken.order;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
-import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
-import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import org.apache.rocketmq.common.message.MessageExt;
-import sun.util.resources.cldr.as.LocaleNames_as;
 
 import java.util.List;
 
