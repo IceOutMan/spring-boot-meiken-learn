@@ -19,13 +19,14 @@ import java.util.Set;
 
 /**
  * 已废弃 不建议使用
+ * Consumer 主动从服务器 拉消息
  */
 public class PullConsumerExample {
     public static final String TOPIC = "TestTopic";
     public static final HashMap<MessageQueue, Long> OFFSET_TABLE = new HashMap<MessageQueue,Long>();
 
     public static void main(String[] args) throws Exception {
-        DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("pull_consumer_group");
+        DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("PULL_CONSUMER_GROUP");
         consumer.setNamesrvAddr("localhost:9876");
         consumer.start();
 

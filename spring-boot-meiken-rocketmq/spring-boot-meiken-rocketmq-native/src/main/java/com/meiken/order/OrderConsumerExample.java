@@ -3,18 +3,28 @@ package com.meiken.order;
 import com.alibaba.fastjson.JSON;
 
 import java.util.List;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.message.MessageExt;
+
 
 /**
  * 只保证局部有序
  */
 public class OrderConsumerExample {
+
+    private static String TOPIC_ORDER = "OrderTopicTest";
+
     public static void main(String[] args) {
         try {
-            DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("order_consumer_group");
+            DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("ORDER_CONSUMER_GROUP");
             consumer.setNamesrvAddr("localhost:9876");
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
 
-            consumer.subscribe("OrderTopicTest", "*");
+            consumer.subscribe(TOPIC_ORDER, "*");
             consumer.registerMessageListener(new MessageListenerOrderly() {
                 @Override
                 public ConsumeOrderlyStatus consumeMessage(List<MessageExt> list, ConsumeOrderlyContext consumeOrderlyContext) {

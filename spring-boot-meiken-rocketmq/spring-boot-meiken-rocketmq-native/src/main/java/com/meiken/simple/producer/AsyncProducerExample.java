@@ -8,15 +8,18 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
+import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
 public class AsyncProducerExample {
     public static final String TOPIC = "TestTopic";
 
     public static void main(String[] args) throws Exception {
-        DefaultMQProducer producer = new DefaultMQProducer("Jodie_Daily_test");
+        DefaultMQProducer producer = new DefaultMQProducer("ProducerGroupName");
         producer.setNamesrvAddr("localhost:9876");
-        producer.setRetryTimesWhenSendAsyncFailed(0); // 发送失败不重试
+
+        // 异步发送失败，重试的次数 次数设置为0不重试
+        producer.setRetryTimesWhenSendAsyncFailed(0);
         producer.start();
 
         CountDownLatch countDownLatch = new CountDownLatch(10);
@@ -30,6 +33,7 @@ public class AsyncProducerExample {
                         System.out.println(JSON.toJSONString(sendResult));
                         countDownLatch.countDown();
                     }
+
                     @Override
                     public void onException(Throwable throwable) {
                         System.out.println("Send error: " + msg);
