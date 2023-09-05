@@ -7,7 +7,11 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@RocketMQMessageListener(consumerGroup = "spring_boot_consume_group", topic = "SpringBootTopic", consumeMode = ConsumeMode.CONCURRENTLY, messageModel = MessageModel.CLUSTERING)
+@RocketMQMessageListener(
+        consumerGroup = "spring_boot_consume_group",
+        topic = "SpringBootTopic",
+        selectorExpression = "tagA || tagB", //  selectorType default is ExpressionType.TAG
+        consumeMode = ConsumeMode.CONCURRENTLY, messageModel = MessageModel.CLUSTERING)
 public class SpringBootConsumer implements RocketMQListener<String> {
     @Override
     public void onMessage(String message) {
