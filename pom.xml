@@ -7,7 +7,6 @@
         <module>spring-boot-meiken-log</module>
         <module>spring-boot-meiken-log/spring-boot-meiken-log-jdk</module>
         <module>spring-boot-meiken-datasource</module>
-        <module>spring-boot-meiken-kafka/spring-boot-meiken-kafka-native</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
