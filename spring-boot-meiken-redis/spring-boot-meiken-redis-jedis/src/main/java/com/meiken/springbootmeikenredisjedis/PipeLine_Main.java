@@ -2,6 +2,7 @@ package com.meiken.springbootmeikenredisjedis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Pipeline;
 
 import java.util.List;
@@ -12,7 +13,12 @@ public class PipeLine_Main {
     }
 
     public static void pipeline(){
-        JedisPool jedisPool = new JedisPool("localhost", 6379);
+        JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxTotal(20);
+        config.setMaxIdle(10);
+        config.setMinIdle(5);
+
+        JedisPool jedisPool = new JedisPool(config, "localhost", 6379);
 
         Jedis jedis = jedisPool.getResource();
 
